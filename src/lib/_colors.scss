@@ -1,0 +1,13 @@
+$colors: (
+  primary: #dd0031,
+  additional: #1976d2,
+  dark: #333333,
+  light: #f1f1f1,
+  grey: #696969,
+);
+
+@function get($key, $opacity: 1) {
+  $color: map-get($colors, $key);
+
+  @return rgba($color, $opacity);
+}
