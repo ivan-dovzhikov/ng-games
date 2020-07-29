@@ -6,4 +6,6 @@ import 'app/app.module';
 
 import { appModule } from 'app/app.module';
 
-angular.bootstrap(document.getElementById('root')!, [appModule]);
+angular.bootstrap(document.getElementById('root')!, [appModule], {
+  strictDi: true,
+});

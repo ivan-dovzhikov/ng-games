@@ -16,7 +16,7 @@ export const appConfig = [
       {
         name: 'games',
         url: '/games/:page',
-        component: '',
+        template: '<app-games-list></app-games-list>',
       },
     ].forEach($stateProvider.state);
 

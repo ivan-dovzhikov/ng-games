@@ -1,11 +1,10 @@
-import type { Component } from 'lib/types';
+import { IComponentOptions } from 'angular';
 
 import template from './app.component.html';
 import './app.component.scss';
 
-export const appComponent: Component = {
-  selector: 'app',
-  options: {
-    template,
-  },
+export const AppComponentName = 'app';
+
+export const AppComponent: IComponentOptions = {
+  template,
 };

@@ -2,11 +2,15 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 
 import { appConfig } from './app.config';
-import { headerComponent } from './header/header.component';
-import { appComponent } from './app.component';
+import { GamesModule } from './core/games/games.module';
+import {
+  HeaderComponent,
+  HeaderComponentName,
+} from './header/header.component';
+import { AppComponent, AppComponentName } from './app.component';
 
 export const appModule = angular
-  .module('app', [uiRouter])
+  .module('app', [uiRouter, GamesModule])
   .config(appConfig)
-  .component(headerComponent.selector, headerComponent.options)
-  .component(appComponent.selector, appComponent.options).name;
+  .component(HeaderComponentName, HeaderComponent)
+  .component(AppComponentName, AppComponent).name;

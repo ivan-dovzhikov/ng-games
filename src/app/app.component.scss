@@ -1,3 +1,5 @@
+@use 'lib/colors';
+
 .app {
   display: flex;
   flex-direction: column;
@@ -9,7 +11,7 @@
   flex: 1;
   width: 800px;
   margin: 0 auto;
-  background-color: get-color(light);
-  border-left: 1px solid get-color(grey);
-  border-right: 1px solid get-color(grey);
+  background-color: colors.get(light);
+  border-left: 1px solid colors.get(grey);
+  border-right: 1px solid colors.get(grey);
 }
