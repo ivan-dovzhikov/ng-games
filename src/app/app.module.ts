@@ -8,9 +8,10 @@ import {
   HeaderComponentName,
 } from './header/header.component';
 import { AppComponent, AppComponentName } from './app.component';
+import { GamesListModule } from './games-list/games-list.module';
 
 export const appModule = angular
-  .module('app', [uiRouter, GamesModule])
+  .module('app', [uiRouter, GamesModule, GamesListModule])
   .config(appConfig)
   .component(HeaderComponentName, HeaderComponent)
   .component(AppComponentName, AppComponent).name;

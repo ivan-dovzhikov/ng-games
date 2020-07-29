@@ -1,0 +1,10 @@
+<a href="/games/1">1</a>
+<a href="/games/2">2</a>
+<ul class="games-list">
+  <li
+    class="games-list__item"
+    ng-repeat="game in vm.games | orderBy: vm.order | limitTo: vm.gamesPerPage : (vm.page - 1) * vm.gamesPerPage"
+  >
+    {{ game.name }}
+  </li>
+</ul>
