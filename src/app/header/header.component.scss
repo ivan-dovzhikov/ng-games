@@ -1,0 +1,13 @@
+@use 'lib/colors';
+
+.app-header {
+  z-index: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background-color: colors.get(primary);
+  box-shadow: 0 2px 2px 0 colors.get(dark);
+  color: colors.get(light);
+}
