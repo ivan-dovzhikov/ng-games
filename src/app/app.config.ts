@@ -15,11 +15,11 @@ export const appConfig = [
     [
       {
         name: 'games',
-        url: '/games',
-        template: '<games-list></games-list>',
+        url: '/games/:page',
+        component: '',
       },
     ].forEach($stateProvider.state);
 
-    $urlServiceProvider.rules.otherwise('/games');
+    $urlServiceProvider.rules.otherwise('/games/1');
   },
 ];
