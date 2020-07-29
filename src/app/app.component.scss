@@ -1,0 +1,15 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-view {
+  box-sizing: border-box;
+  flex: 1;
+  width: 800px;
+  margin: 0 auto;
+  background-color: get-color(light);
+  border-left: 1px solid get-color(grey);
+  border-right: 1px solid get-color(grey);
+}
