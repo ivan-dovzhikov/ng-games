@@ -1,6 +1,6 @@
 import { resource } from 'angular';
 
-import type { GamesData } from './types';
+import type { Category, Game, GamesData, Merchant } from './types';
 import {
   ObserverService,
   ObserverServiceName,
@@ -44,25 +44,32 @@ export class GamesService {
       merchants: [],
     };
 
-    processedData.games = games.map((game: any) => ({
-      id: game.ID,
-      name: game.Name.en,
-      imageFullPath: game.ImageFullPath,
-      url: game.Url,
-      merchantId: game.MerchantID,
-      categoryId: game.CategoryID,
-      favorite: false,
-    }));
+    processedData.games = games.map(
+      (game: any): Game => ({
+        id: game.ID,
+        name: game.Name.en,
+        imageFullPath: game.ImageFullPath,
+        url: game.Url,
+        merchantId: game.MerchantID,
+        categoryId: game.CategoryID,
+        isFavorite: false,
+        inPriority: false,
+      })
+    );
 
-    processedData.categories = categories.map((category: any) => ({
-      id: category.ID,
-      name: category.Name.en,
-    }));
+    processedData.categories = categories.map(
+      (category: any): Category => ({
+        id: category.ID,
+        name: category.Name.en,
+      })
+    );
 
-    processedData.merchants = Object.values(merchants).map((merchant: any) => ({
-      id: merchant.ID,
-      name: merchant.Name,
-    }));
+    processedData.merchants = Object.values(merchants).map(
+      (merchant: any): Merchant => ({
+        id: merchant.ID,
+        name: merchant.Name,
+      })
+    );
 
     return processedData;
   }

@@ -1,10 +1,20 @@
-<a href="/games/1">1</a>
-<a href="/games/2">2</a>
 <ul class="games-list">
   <li
     class="games-list__item"
-    ng-repeat="game in vm.games | orderBy: vm.order | limitTo: vm.gamesPerPage : (vm.page - 1) * vm.gamesPerPage"
+    ng-repeat="
+      game in filteredGames = (
+        vm.games
+        | filter: vm.pipes.filter
+        | intersect: vm.pipes.intersect
+        | orderBy:  vm.pipes.order
+      ) 
+      | limitTo: vm.gamesPerPage : (vm.page - 1) * vm.gamesPerPage
+      track by game.id"
   >
-    {{ game.name }}
+    <app-game-card
+      data="game"
+      toggle-favorite="vm.toggleFavorite(game.id)"
+      toggle-priority="vm.togglePriority(game.id)"
+    ></app-game-card>
   </li>
 </ul>

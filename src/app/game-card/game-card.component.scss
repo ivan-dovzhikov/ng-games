@@ -1,0 +1,137 @@
+@use 'lib/colors';
+
+$card-border-color: colors.get(grey);
+$figure-caption-padding: 1rem;
+$button-size: 1.5em;
+
+@mixin styleCard($color, $button-class) {
+  border-color: $color;
+
+  .game-card__image {
+    border-color: $color;
+  }
+
+  .game-card__link:hover {
+    border-color: $color;
+    background-color: $color;
+  }
+
+  .game-card__#{$button-class}-button {
+    border-color: $color;
+    background-color: $color;
+    color: colors.get(light);
+
+    &:focus,
+    &:hover {
+      background-color: colors.get(light);
+      color: $color;
+    }
+  }
+}
+
+[class|='game-card'] {
+  box-sizing: border-box;
+  border: 2px solid $card-border-color;
+
+  &[class*='--favorite'] {
+    @include styleCard(colors.get(primary), 'favorite');
+  }
+
+  &[class*='--priority'] {
+    @include styleCard(colors.get(additional), 'priority');
+  }
+}
+
+.game-card__figure {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.game-card__image {
+  box-sizing: border-box;
+  width: 50%;
+  border-right: 2px solid $card-border-color;
+}
+
+.game-card__figure-caption {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+  padding: $figure-caption-padding;
+}
+
+.game-card__name {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 $button-size;
+  width: 100%;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.game-card__link {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  background-color: transparent;
+  border: 1px solid colors.get(dark);
+  outline: none;
+
+  &:focus,
+  &:hover {
+    border-color: colors.get(primary);
+    background-color: colors.get(primary);
+    color: colors.get(light);
+  }
+}
+
+.game-card__buttons-container {
+  position: absolute;
+  top: $figure-caption-padding;
+  right: $figure-caption-padding;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: $button-size * 2.25;
+}
+
+.game-card__favorite-button,
+.game-card__priority-button {
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: $button-size;
+  height: $button-size;
+  margin: 0;
+
+  border: 1px solid colors.get(grey);
+  border-radius: 0;
+  outline: none;
+  background-color: transparent;
+
+  line-height: 1;
+  cursor: pointer;
+}
+
+.game-card__priority-button {
+  &:focus,
+  &:hover {
+    border-color: colors.get(additional);
+    color: colors.get(additional);
+  }
+}
+
+.game-card__favorite-button {
+  &:focus,
+  &:hover {
+    border-color: colors.get(primary);
+    color: colors.get(primary);
+  }
+}

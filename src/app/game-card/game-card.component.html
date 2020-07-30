@@ -1,0 +1,32 @@
+<article ng-class="vm.getCardClass()">
+  <figure class="game-card__figure">
+    <img
+      class="game-card__image"
+      ng-src="{{ vm.data.imageFullPath }}"
+      alt="{{ vm.data.name }}"
+      title="{{ vm.data.name }}"
+    />
+    <figcaption class="game-card__figure-caption">
+      <div class="game-card__buttons-container">
+        <button
+          class="game-card__priority-button"
+          title="{{ vm.data.inPriority ? 'Lose priority' : 'Make priority' }}"
+          ng-click="vm.togglePriority()"
+        >
+          $
+        </button>
+        <button
+          class="game-card__favorite-button"
+          title="{{ vm.data.isFavorite ? 'Lose favorite' : 'Make favorite' }}"
+          ng-click="vm.toggleFavorite()"
+        >
+          &starf;
+        </button>
+      </div>
+      <h3 class="game-card__name">{{ vm.data.name }}</h3>
+      <a class="game-card__link" ng-href="{{ vm.data.url }}">
+        Play
+      </a>
+    </figcaption>
+  </figure>
+</article>

@@ -5,6 +5,8 @@ export interface Game {
   url: string;
   merchantId: string;
   categoryId: string[];
+  isFavorite: boolean;
+  inPriority: boolean;
 }
 
 export type GamesArray = Game[];

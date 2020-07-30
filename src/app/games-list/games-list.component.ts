@@ -1,7 +1,7 @@
 import { IComponentOptions } from 'angular';
 import { StateParams } from 'angular-ui-router';
 
-import { GamesServiceName, GamesService } from 'app/core/games/games.service';
+import { GamesService, GamesServiceName } from 'app/core/games/games.service';
 import type { GamesArray } from 'app/core/games/types';
 
 import template from './games-list.component.html';
@@ -13,32 +13,54 @@ export const GamesListComponent: IComponentOptions = {
   template,
   controllerAs: 'vm',
   controller: class GamesListController {
-    static $inject = [GamesServiceName, '$stateParams'];
+    static $inject = ['$stateParams', GamesServiceName, 'filteredGamesLength'];
 
-    constructor(private gamesService: GamesService, { page }: StateParams) {
-      this.page = page;
+    constructor(
+      $stateParams: StateParams,
+      gamesService: GamesService,
+      public filteredGamesLength: { value: number }
+    ) {
+      this.page = $stateParams.page;
+      if (gamesService.data) this.games = gamesService.data.games;
+      this.unsubscribe = gamesService.subscribe(
+        ({ games }) => (this.games = games)
+      );
     }
 
-    private unsubscribe?: () => void;
-
-    public games?: GamesArray;
+    public $onDestroy() {
+      this.unsubscribe();
+    }
 
     public page: number;
     public gamesPerPage = 20;
-    public order = 'name';
+    public games: GamesArray = [];
+    public pipes = {
+      filter: {
+        name: '',
+        isFavorite: undefined,
+      },
+      intersect: [],
+      order: ['-inPriority', '-isFavorite', 'name'],
+    };
+    public unsubscribe: () => void;
 
-    $onInit() {
-      if (this.gamesService.data) {
-        this.games = this.gamesService.data.games;
-      }
+    public setFilteredGamesLength(length: number) {
+      this.filteredGamesLength.value = length;
+    }
 
-      this.unsubscribe = this.gamesService.subscribe(data => {
-        this.games = data.games;
+    public toggleFavorite(targetId: string) {
+      this.games = this.games.map(game => {
+        if (game.id === targetId) game.isFavorite = !game.isFavorite;
+        return game;
       });
     }
 
-    $onDestroy() {
-      if (this.unsubscribe) this.unsubscribe();
+    // TODO replace with index
+    public togglePriority(targetId: string) {
+      this.games = this.games.map(game => {
+        if (game.id === targetId) game.inPriority = !game.inPriority;
+        return game;
+      });
     }
   },
 };
