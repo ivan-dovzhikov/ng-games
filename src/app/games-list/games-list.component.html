@@ -1,16 +1,27 @@
+<header class="games-header">
+  <app-pagination
+    options="{
+    currentPage: vm.pagination.currentPage,
+    lastPage: vm.pagination.numberOfPages
+  }"
+    url="'/games/'"
+  ></app-pagination>
+</header>
+
 <ul class="games-list">
   <li
     class="games-list__item"
     ng-repeat="
-      game in filteredGames = (
-        vm.games
-        | filter: vm.pipes.filter
-        | intersect: vm.pipes.intersect
-        | orderBy:  vm.pipes.order
-      ) 
-      | limitTo: vm.gamesPerPage : (vm.page - 1) * vm.gamesPerPage
-      track by game.id"
+  game in filteredGames = (
+    vm.games
+    | filter: vm.selection.filter
+    | intersect: vm.selection.intersect
+    | orderBy:  vm.selection.order
+    ) 
+  | limitTo: vm.pagination.gamesPerPage : (vm.pagination.currentPage - 1) * vm.pagination.gamesPerPage
+    track by game.id"
   >
+    {{ vm.setFilteredGamesLength(filteredGames.length) }}
     <app-game-card
       data="game"
       toggle-favorite="vm.toggleFavorite(game.id)"
@@ -18,3 +29,13 @@
     ></app-game-card>
   </li>
 </ul>
+
+<footer class="games-footer">
+  <app-pagination
+    options="{
+      currentPage: vm.pagination.currentPage,
+      lastPage: vm.pagination.numberOfPages
+    }"
+    url="'/games/'"
+  ></app-pagination>
+</footer>

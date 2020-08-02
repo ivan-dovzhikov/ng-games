@@ -1,0 +1,19 @@
+<nav class="pagination">
+  <ul class="pagination__list">
+    <li class="pagination__item" ng-repeat="char in vm.pagination.chars">
+      <a
+        class="{{ 'pagination__' + char.type }}"
+        ng-if="char.type === 'link'"
+        ng-href="{{ vm.url + char.page }}"
+      >
+        {{ char.char }}
+      </a>
+      <span
+        class="{{ 'pagination__' + char.type }}"
+        ng-if="char.type !== 'link'"
+      >
+        {{ char.char }}
+      </span>
+    </li>
+  </ul>
+</nav>

@@ -1,8 +1,12 @@
 import { IComponentOptions } from 'angular';
-import { StateParams } from 'angular-ui-router';
+import { StateParams, StateService } from 'angular-ui-router';
 
 import { GamesService, GamesServiceName } from 'app/core/games/games.service';
 import type { GamesArray } from 'app/core/games/types';
+import {
+  FilteredGamesLength,
+  filteredGamesLengthName,
+} from './filtered-games-length.value';
 
 import template from './games-list.component.html';
 import './games-list.component.scss';
@@ -13,36 +17,71 @@ export const GamesListComponent: IComponentOptions = {
   template,
   controllerAs: 'vm',
   controller: class GamesListController {
-    static $inject = ['$stateParams', GamesServiceName, 'filteredGamesLength'];
+    static $inject = [
+      '$stateParams',
+      '$state',
+      GamesServiceName,
+      filteredGamesLengthName,
+    ];
 
     constructor(
       $stateParams: StateParams,
-      gamesService: GamesService,
-      public filteredGamesLength: { value: number }
+      private $state: StateService,
+      private gamesService: GamesService,
+      public filteredGamesLength: FilteredGamesLength
     ) {
-      this.page = $stateParams.page;
-      if (gamesService.data) this.games = gamesService.data.games;
-      this.unsubscribe = gamesService.subscribe(
-        ({ games }) => (this.games = games)
-      );
+      this.init();
+      this.unsubscribe = gamesService.subscribe(this.init);
+      this.pagination.currentPage = +$stateParams.page;
     }
+
+    private init = () => {
+      if (!this.gamesService.data) return;
+
+      this.games = this.gamesService.data.games;
+
+      const currentPage = +this.pagination.currentPage;
+      const numberOfPages = (this.pagination.numberOfPages = Math.ceil(
+        this.games.length / this.pagination.gamesPerPage
+      ));
+
+      if (
+        Object.is(currentPage, NaN) ||
+        currentPage < 0 ||
+        currentPage > numberOfPages
+      ) {
+        this.redirectToStart();
+      }
+    };
 
     public $onDestroy() {
       this.unsubscribe();
     }
 
-    public page: number;
-    public gamesPerPage = 20;
-    public games: GamesArray = [];
-    public pipes = {
+    public selection = {
       filter: {
         name: '',
         isFavorite: undefined,
       },
-      intersect: [],
+      intersect: {
+        merchantId: [],
+        categoryId: [],
+      },
       order: ['-inPriority', '-isFavorite', 'name'],
     };
+
+    public pagination = {
+      currentPage: 1,
+      gamesPerPage: 20,
+      numberOfPages: 1,
+    };
+
+    public games: GamesArray = [];
     public unsubscribe: () => void;
+
+    private redirectToStart() {
+      this.$state.go('.', { page: 1 }, { notify: false });
+    }
 
     public setFilteredGamesLength(length: number) {
       this.filteredGamesLength.value = length;

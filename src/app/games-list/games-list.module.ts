@@ -12,6 +12,7 @@ import {
   filteredGamesLengthName,
   filteredGamesLengthValue,
 } from './filtered-games-length.value';
+import { PaginationModule } from 'app/core/pagination/pagination.module';
 
 export const GamesListModule = angular
   .module('GamesListModule', [
@@ -19,6 +20,7 @@ export const GamesListModule = angular
     GamesModule,
     GameCardModule,
     IntersectModule,
+    PaginationModule,
   ])
   .component(GamesListComponentName, GamesListComponent)
   .value(filteredGamesLengthName, filteredGamesLengthValue).name;
